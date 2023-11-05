@@ -28,27 +28,15 @@ export class EmpleadosService {
   }
 
 public getEmpleado(id: number) {
-  console.log(id);
-  console.log(this.empleados);
-    const empleado = this.empleados.find((e) =>{
-      if( e.id === id){
-        console.log(e);
-      }
-    }};
-  console.log(empleado);
-  return empleado;
+    return this.empleados.find((e) => e.id === id);
   }
 
-public agregarEmpleado (modelo: EmpleadoModel) {
-    let empleado = {
-       "id": modelo.id,
-       "name": modelo.name,
-       "cellphone": modelo.cellphone,
-       "salary":modelo.salary
-    }
-  //   //Agrego el producto a la lista
-    this.empleados.push(empleado);
-    return "Empleados agregados con exito";
+public agregarEmpleado (nuevoEmpleado: EmpleadoModel) {
+   
+    
+  //agrego empleado a la lista
+    this.empleados.push(nuevoEmpleado);
+    return nuevoEmpleado;
    }
 
 public getEmpleados(): Array<EmpleadoModel> {
@@ -56,40 +44,24 @@ public getEmpleados(): Array<EmpleadoModel> {
   }
 
 public modificarSalary(id: number, newSalary: number) {
-    const empleado = this.empleados.find((e) => e.id === id);
-    if (empleado) {
-      empleado.salary = newSalary;
+   let empleado = null;
+   for(let i=0;i<this.empleados.length;i++ ){
+    if (this.empleados[i].id===id){
+      this.empleados[i].salary=newSalary;
+      empleado=this.empleados[i];
     }
+   }
+   return empleado;
   }
- // modificarEmpleado(id: string, modelo: EmpleadoModel) {
-
-    //Aca modifico el producto.
-    //Hay que completar la funcionalidad
-   // return "Empleado modificado con exito"
-  //}
-
-  public eliminarEmpleado(id: string) {
-    // Convierto el id que me envian a un tipo numero para poder buscar en el array de empleados
-    const idNumber = Number(id);
 
 
-    /**
-     * [
-     * {
-     * id: 1,
-     * name: "Lau"
-     * cellphone: '2494498198'
-     * salary: 500.000
-     * }
-     * ]
-     * 
-     */
-
+  public eliminarEmpleado(id: number) {
+   
     // Guardo el empleado que se quiere eliminar en una variable antes de eliminarlo del array para poder retornarlo
-    const empleadoEliminado =  this.empleados.find((e) => e.id == idNumber);
+    const empleadoEliminado =  this.empleados.find((e) => e.id == id);
 
     // Busco el indice en el array de empleados donde se encuentra el empleado que quiero eliminar
-    const index = this.empleados.findIndex(e => e.id === idNumber); 
+    const index = this.empleados.findIndex(e => e.id === id); 
 
     // retorno un error si el empleado que se quiere eliminar no existe
     //if(!index) throw new BadRequestException(' El empleado que desea eliminar no existe');
