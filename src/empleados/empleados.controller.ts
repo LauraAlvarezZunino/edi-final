@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { EmpleadosService } from './empleados.service';
 import { EmpleadoModel } from './empleadoModel';
 
@@ -9,34 +9,33 @@ export class EmpleadosController {
 
     @Post()
     agregarEmpleado(@Body() empleado: EmpleadoModel) {
-      this.empleadosService.agregarEmpleado (empleado) ;
+        return this.empleadosService.agregarEmpleado(empleado) ;
     }
 
  //obtener info 1 empleado
- @Get(':id')
- getEmpleado(@Param('id') id: number) {
-    
-   return this.empleadosService.getEmpleado(id);
- }
+    @Get(':id')
+    getEmpleado(@Param('id', ParseIntPipe) id: number) {
+        return this.empleadosService.getEmpleado(id);
+    }
 
     @Get()
     public getEmpleados():Array<EmpleadoModel> {
-      return  this.empleadosService.getEmpleados();
+        return  this.empleadosService.getEmpleados();
     }
 
 
 
-  @Put(':id/salary')
-  modificarSalary(@Param('id') id: number, @Body('salary') salary: number) {
-    this.empleadosService.modificarSalary(id, salary);
-  }
+    @Put(':id/salary')
+    modificarSalary(@Param('id', ParseIntPipe) id: number, @Body('salary') salary: number) {
+       return this.empleadosService.modificarSalary(id, salary);
+    }
 
     
     @Delete(':id')
-     remove(@Param('id') id: string) {
-    console.log(id);
-    return this.empleadosService.eliminarEmpleado(id);
-  }
+    remove(@Param('id', ParseIntPipe) id: number) {
+        console.log(id);
+        return this.empleadosService.eliminarEmpleado(id);
+    }
 
 
 
